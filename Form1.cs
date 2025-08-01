@@ -20,28 +20,8 @@ namespace clock {
         public Form1() {
             InitializeComponent();
 
-            LoadRodinFont();
-
-            label1 = new Label();
-            label1.Font = new Font(fonts.Families[0], 90);
-            label1.AutoSize = true;
-            label1.ForeColor = ColorTranslator.FromHtml("#F6F9FB");
-            Controls.Add(label1);
-
-            timer1 = new Timer();
-            timer1.Interval = 1000;
-            timer1.Tick += timer1_Tick_1;
-            timer1.Start();
-
-            this.BackColor = ColorTranslator.FromHtml("#11101A");
-            this.Resize += (s, e) => CenterLabel();
-
-            CenterLabel();
-        }
-
-        private void LoadRodinFont() {
             string resourceName = "clock.Properties.Rodin.otf";
-            using (Stream fontStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))             {
+            using (Stream fontStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)) {
                 if (fontStream == null) {
                     MessageBox.Show("Font resource not found");
                     return;
@@ -55,6 +35,23 @@ namespace clock {
                 fonts.AddMemoryFont(fontPtr, fontData.Length);
                 Marshal.FreeCoTaskMem(fontPtr);
             }
+
+            label1 = new Label();
+            label1.Font = new Font(fonts.Families[0], 90);
+            label1.AutoSize = true;
+            label1.ForeColor = ColorTranslator.FromHtml("#F6F9FB");
+            Controls.Add(label1);
+
+            timer1 = new Timer();
+            timer1.Interval = 1000;
+            timer1.Tick += timer1_Tick_1;
+            timer1.Start();
+
+            this.Text = "Clock";
+            this.BackColor = ColorTranslator.FromHtml("#11101A");
+            this.Resize += (s, e) => CenterLabel();
+
+            CenterLabel();
         }
 
         private void timer1_Tick_1(object sender, EventArgs e) {
@@ -78,8 +75,7 @@ namespace clock {
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void ToggleFullScreen()
-        {
+        private void ToggleFullScreen() {
             if (!isFullScreen) {
                 previousWindowState = this.WindowState;
                 previousBorderStyle = this.FormBorderStyle;
