@@ -59,3 +59,5 @@ nunit-*.xml
 # Visual Studio user files
 *.user
 *.suo
+
+*.otf
