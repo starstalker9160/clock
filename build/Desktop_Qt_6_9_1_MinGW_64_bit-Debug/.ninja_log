@@ -1,0 +1,9 @@
+# ninja log v6
+4	400	7769851765538307	clock_autogen/timestamp	b968ff7ac0bbb8e0
+4	400	7769851765538307	clock_autogen/mocs_compilation.cpp	b968ff7ac0bbb8e0
+4	400	7769851765538307	D:/Programming/Cpp/clock/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/clock_autogen/timestamp	b968ff7ac0bbb8e0
+4	400	7769851765538307	D:/Programming/Cpp/clock/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/clock_autogen/mocs_compilation.cpp	b968ff7ac0bbb8e0
+402	1411	7769851766014473	CMakeFiles/clock.dir/clock_autogen/mocs_compilation.cpp.obj	9fcaf0ba6e2fd03b
+405	1416	7769851766045252	CMakeFiles/clock.dir/main.cpp.obj	35651f547e1dc26a
+408	1434	7769851766079437	CMakeFiles/clock.dir/clock.cpp.obj	71f011a8c7646eba
+1434	1576	7769851776342624	clock.exe	49e3ef14bec2d655
