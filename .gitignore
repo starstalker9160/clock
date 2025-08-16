@@ -56,3 +56,7 @@ compile_commands.json
 
 /build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/
 /build/Desktop_Qt_6_9_1_MinGW_64_bit-Release/
+/build/Qt_6_9_1_for_macOS-Debug/
+/build/Qt_6_9_1_for_macOS-Release/
+
+.DS_Store

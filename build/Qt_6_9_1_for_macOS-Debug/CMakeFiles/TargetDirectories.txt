@@ -1,9 +1,0 @@
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/clock.dir
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/edit_cache.dir
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/rebuild_cache.dir
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/list_install_components.dir
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/install.dir
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/install/local.dir
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/install/strip.dir
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/clock_autogen_timestamp_deps.dir
-/Users/star.stalker9160/Desktop/clock/build/Qt_6_9_1_for_macOS-Debug/CMakeFiles/clock_autogen.dir
