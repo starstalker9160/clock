@@ -55,7 +55,12 @@ class Clock : public QWidget {
 
 public:
     Clock(const ClockConfig &config) : cfg(config) {
-        QString fontPath = QCoreApplication::applicationDirPath() + "/" + cfg.fontFile;
+        QString exeDir = QCoreApplication::applicationDirPath();
+        QString suffix = "clock.app/Contents/MacOS";
+        if (exeDir.endsWith(suffix)) { exeDir = exeDir.chopped(suffix.length()); }
+
+        QString fontPath = exeDir + "/" + cfg.fontFile;
+
         int id = QFontDatabase::addApplicationFont(fontPath);
         QString family;
         if (id != -1) {
