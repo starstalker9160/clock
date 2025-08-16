@@ -13,8 +13,8 @@
 #include <QFontDatabase>
 
 struct ClockConfig {
-    QString foreground = "#EFDFBB";
-    QString background = "#722F37";
+    QString foreground = "#00ff00";
+    QString background = "#000000";
     QString fontFile   = "font.otf";
 };
 
@@ -49,86 +49,87 @@ ClockConfig loadConfig() {
 class Clock : public QWidget {
     Q_OBJECT
 
-    public:
-        Clock(const ClockConfig &config) : cfg(config) {
-            QString fontPath = QCoreApplication::applicationDirPath() + "/" + cfg.fontFile;
-            int id = QFontDatabase::addApplicationFont(fontPath);
-            QString family;
-            if (id != -1) {
-                family = QFontDatabase::applicationFontFamilies(id).value(0);
-            }
-
-            QFont font;
-            if (!family.isEmpty()) {
-                font = QFont(family, 72);
-            } else {
-                qWarning() << "Font" << cfg.fontFile << "could not be loaded, falling back to default.";
-                font = QFont("Sans Serif", 72);
-            }
-
-            timeLabel = new QLabel(this);
-            timeLabel->setAlignment(Qt::AlignCenter);
-            timeLabel->setFont(font);
-            timeLabel->setStyleSheet(QString("QLabel { color: %1; background-color: transparent; }").arg(cfg.foreground));
-
-            QVBoxLayout *layout = new QVBoxLayout(this);
-            layout->addWidget(timeLabel);
-            setLayout(layout);
-
-            setWindowTitle("Clock");
-
-            setAutoFillBackground(true);
-            QPalette pal = palette();
-            pal.setColor(QPalette::Window, QColor(cfg.background));
-            setPalette(pal);
-
-            currentTime = QDateTime::currentDateTime();
-            updateLabel();
-
-            timer = new QTimer(this);
-            connect(timer, &QTimer::timeout, this, &Clock::tick);
-
-            int msToNextSecond = 1000 - QTime::currentTime().msec();
-            QTimer::singleShot(msToNextSecond, this, [this]() {
-                timer->start(1000);
-                tick();
-            });
+public:
+    Clock(const ClockConfig &config) : cfg(config) {
+        QString fontPath = QCoreApplication::applicationDirPath() + "/" + cfg.fontFile;
+        int id = QFontDatabase::addApplicationFont(fontPath);
+        QString family;
+        if (id != -1) {
+            family = QFontDatabase::applicationFontFamilies(id).value(0);
         }
 
-    protected:
-        void keyPressEvent(QKeyEvent *event) override {
-            if (event->key() == Qt::Key_Return && (event->modifiers() & Qt::AltModifier)) {
-                if (isFullScreen())
-                    showNormal();
-                else
-                    showFullScreen();
-            }
+        QFont font;
+        if (!family.isEmpty()) {
+            font = QFont(family, 72);
+        } else {
+            qWarning() << "Font" << cfg.fontFile << "could not be loaded, falling back to default.";
+            font = QFont("Sans Serif", 72);
         }
 
-    private slots:
-        void tick() {
-            currentTime = currentTime.addSecs(1);
-            updateLabel();
-        }
+        timeLabel = new QLabel(this);
+        timeLabel->setAlignment(Qt::AlignCenter);
+        timeLabel->setFont(font);
+        timeLabel->setStyleSheet(QString("QLabel { color: %1; background-color: transparent; }")
+                                     .arg(cfg.foreground));
 
-    private:
-        void updateLabel() {
-            timeLabel->setText(currentTime.toString("HH:mm:ss"));
-        }
+        QVBoxLayout *layout = new QVBoxLayout(this);
+        layout->addWidget(timeLabel);
+        setLayout(layout);
 
-        QLabel *timeLabel;
-        QTimer *timer;
-        QDateTime currentTime;
-        ClockConfig cfg;
+        setWindowTitle("Clock");
+
+        setAutoFillBackground(true);
+        QPalette pal = palette();
+        pal.setColor(QPalette::Window, QColor(cfg.background));
+        setPalette(pal);
+
+        currentTime = QDateTime::currentDateTime();
+        updateLabel();
+
+        timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, this, &Clock::tick);
+
+        int msToNextSecond = 1000 - QTime::currentTime().msec();
+        QTimer::singleShot(msToNextSecond, this, [this]() {
+            timer->start(1000);
+            tick();
+        });
+    }
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override {
+        if (event->key() == Qt::Key_Return && (event->modifiers() & Qt::AltModifier)) {
+            if (isFullScreen())
+                showNormal();
+            else
+                showFullScreen();
+        }
+    }
+
+private slots:
+    void tick() {
+        currentTime = currentTime.addSecs(1);
+        updateLabel();
+    }
+
+private:
+    void updateLabel() {
+        timeLabel->setText(currentTime.toString("HH:mm:ss"));
+    }
+
+    QLabel *timeLabel;
+    QTimer *timer;
+    QDateTime currentTime;
+    ClockConfig cfg;
 };
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    
+
     ClockConfig cfg = loadConfig();
     Clock clock(cfg);
     clock.show();
-    
+
     return app.exec();
 }
 
