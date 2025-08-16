@@ -13,41 +13,41 @@
 #include <QFontDatabase>
 
 struct ClockConfig {
-    QString foreground = "#00ff00";
-    QString background = "#000000";
+    QString foreground = "#EFDFBB";
+    QString background = "#722F37";
     QString fontFile   = "font.otf";
 };
 
 ClockConfig loadConfig() {
-        ClockConfig config;
-        QString exeDir = QCoreApplication::applicationDirPath();
-        QFile file(exeDir + "/config.json");
+    ClockConfig config;
+    QString exeDir = QCoreApplication::applicationDirPath();
+    QFile file(exeDir + "/config.json");
 
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QByteArray data = file.readAll();
-            file.close();
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QByteArray data = file.readAll();
+        file.close();
 
-            QJsonDocument doc = QJsonDocument::fromJson(data);
-            if (doc.isObject()) {
-                QJsonObject obj = doc.object();
-                if (obj.contains("foreground") && obj["foreground"].isString())
-                    config.foreground = obj["foreground"].toString();
-                if (obj.contains("background") && obj["background"].isString())
-                    config.background = obj["background"].toString();
-                if (obj.contains("font") && obj["font"].isString())
-                    config.fontFile = obj["font"].toString();
-            } else {
-                qWarning() << "config.json is not a valid JSON object, using defaults.";
-            }
+        QJsonDocument doc = QJsonDocument::fromJson(data);
+        if (doc.isObject()) {
+            QJsonObject obj = doc.object();
+            if (obj.contains("foreground") && obj["foreground"].isString())
+                config.foreground = obj["foreground"].toString();
+            if (obj.contains("background") && obj["background"].isString())
+                config.background = obj["background"].toString();
+            if (obj.contains("font") && obj["font"].isString())
+                config.fontFile = obj["font"].toString();
         } else {
-            qWarning() << "No config.json found, using defaults.";
+            qWarning() << "config.json is not a valid JSON object, using defaults.";
         }
-
-        return config;
+    } else {
+        qWarning() << "No config.json found, using defaults.";
     }
 
-    class Clock : public QWidget {
-        Q_OBJECT
+    return config;
+}
+
+class Clock : public QWidget {
+    Q_OBJECT
 
     public:
         Clock(const ClockConfig &config) : cfg(config) {
@@ -60,10 +60,10 @@ ClockConfig loadConfig() {
 
             QFont font;
             if (!family.isEmpty()) {
-                font = QFont(family, 72, QFont::Bold);
+                font = QFont(family, 72);
             } else {
                 qWarning() << "Font" << cfg.fontFile << "could not be loaded, falling back to default.";
-                font = QFont("Sans Serif", 72, QFont::Bold);
+                font = QFont("Sans Serif", 72);
             }
 
             timeLabel = new QLabel(this);
@@ -124,11 +124,11 @@ ClockConfig loadConfig() {
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-
+    
     ClockConfig cfg = loadConfig();
     Clock clock(cfg);
     clock.show();
-
+    
     return app.exec();
 }
 
