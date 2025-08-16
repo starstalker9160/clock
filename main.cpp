@@ -1,81 +1,82 @@
-#include <QApplication>
-#include <QWidget>
 #include <QLabel>
 #include <QTimer>
-#include <QFontDatabase>
-#include <QVBoxLayout>
-#include <QDateTime>
-#include <QElapsedTimer>
+#include <QWidget>
 #include <QKeyEvent>
+#include <QDateTime>
+#include <QVBoxLayout>
+#include <QApplication>
+#include <QFontDatabase>
 
 const char* BACKGROUND_COLOR = "#000000";
 const char* FOREGROUND_COLOR = "#00FF00";
 
-class ClockWidget : public QWidget {
+class Clock : public QWidget {
     Q_OBJECT
 
-public:
-    ClockWidget() {
-        int id = QFontDatabase::addApplicationFont("font.otf");
-        QString family = QFontDatabase::applicationFontFamilies(id).value(0);
-        QFont font(family, 72, QFont::Bold);
+    public:
+        Clock() {
+            int id = QFontDatabase::addApplicationFont("font.otf");
+            QString family = QFontDatabase::applicationFontFamilies(id).value(0);
+            QFont font(family, 72, QFont::Bold);
 
-        timeLabel = new QLabel(this);
-        timeLabel->setAlignment(Qt::AlignCenter);
-        timeLabel->setFont(font);
-        timeLabel->setStyleSheet(QString("QLabel { color: %1; background-color: %2; }")
-                                     .arg(FOREGROUND_COLOR)
-                                     .arg(BACKGROUND_COLOR));
+            timeLabel = new QLabel(this);
+            timeLabel->setAlignment(Qt::AlignCenter);
+            timeLabel->setFont(font);
+            timeLabel->setStyleSheet(QString("QLabel { color: %1; background-color: transparent; }").arg(FOREGROUND_COLOR));
 
-        QVBoxLayout *layout = new QVBoxLayout(this);
-        layout->addWidget(timeLabel);
-        setLayout(layout);
+            QVBoxLayout *layout = new QVBoxLayout(this);
+            layout->addWidget(timeLabel);
+            setLayout(layout);
 
-        setWindowFlag(Qt::FramelessWindowHint);
-        resize(800, 600);
+            setWindowTitle("Clock");
 
-        currentTime = QDateTime::currentDateTime();
-        updateLabel();
+            setAutoFillBackground(true);
+            QPalette pal = palette();
+            pal.setColor(QPalette::Window, QColor(BACKGROUND_COLOR));
+            setPalette(pal);
 
-        timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, this, &ClockWidget::tick);
+            currentTime = QDateTime::currentDateTime();
+            updateLabel();
 
-        int msToNextSecond = 1000 - QTime::currentTime().msec();
-        QTimer::singleShot(msToNextSecond, this, [this]() {
-            timer->start(1000);
-            tick();
-        });
-    }
+            timer = new QTimer(this);
+            connect(timer, &QTimer::timeout, this, &Clock::tick);
 
-protected:
-    void keyPressEvent(QKeyEvent *event) override {
-        if (event->key() == Qt::Key_Return && (event->modifiers() & Qt::AltModifier)) {
-            if (isFullScreen())
-                showNormal();
-            else
-                showFullScreen();
+            int msToNextSecond = 1000 - QTime::currentTime().msec();
+            QTimer::singleShot(msToNextSecond, this, [this]() {
+                timer->start(1000);
+                tick();
+            });
         }
-    }
 
-private slots:
-    void tick() {
-        currentTime = currentTime.addSecs(1);
-        updateLabel();
-    }
+    protected:
+        void keyPressEvent(QKeyEvent *event) override {
+            if (event->key() == Qt::Key_Return && (event->modifiers() & Qt::AltModifier)) {
+                if (isFullScreen())
+                    showNormal();
+                else
+                    showFullScreen();
+            }
+        }
 
-private:
-    void updateLabel() {
-        timeLabel->setText(currentTime.toString("HH:mm:ss"));
-    }
+    private slots:
+        void tick() {
+            currentTime = currentTime.addSecs(1);
+            updateLabel();
+        }
 
-    QLabel *timeLabel;
-    QTimer *timer;
-    QDateTime currentTime;
+    private:
+        void updateLabel() {
+            timeLabel->setText(currentTime.toString("HH:mm:ss"));
+        }
+
+        QLabel *timeLabel;
+        QTimer *timer;
+        QDateTime currentTime;
 };
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    ClockWidget clock;
+    Clock clock;
     clock.show();
     return app.exec();
 }
