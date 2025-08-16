@@ -21,6 +21,10 @@ struct ClockConfig {
 ClockConfig loadConfig() {
     ClockConfig config;
     QString exeDir = QCoreApplication::applicationDirPath();
+    QString suffix = "clock.app/Contents/MacOS";
+    if (exeDir.endsWith(suffix)) {
+        exeDir = exeDir.chopped(suffix.length());
+    }
     QFile file(exeDir + "/config.json");
 
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
