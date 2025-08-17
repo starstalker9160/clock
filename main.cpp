@@ -16,7 +16,7 @@
 struct ClockConfig {
     QString foreground = "#00ff00";
     QString background = "#000000";
-    QString fontFile   = "font.otf";
+    QString fontFile   = "font.ttf";
 };
 
 QString getResourcePath(const QString &filename) {
