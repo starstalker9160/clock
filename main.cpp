@@ -17,6 +17,7 @@ struct ClockConfig {
     QString foreground = "#00ff00";
     QString background = "#000000";
     QString fontFile   = "font.ttf";
+    int fontSize = 72;
 };
 
 QString getResourcePath(const QString &filename) {
@@ -45,6 +46,8 @@ ClockConfig loadConfig() {
                 config.background = obj["background"].toString();
             if (obj.contains("font") && obj["font"].isString())
                 config.fontFile = obj["font"].toString();
+            if (obj.contains("fontSize") && obj["fontSize"].isDouble())
+                config.fontSize = obj["fontSize"].toInt();
         }
     }
     return config;
@@ -61,10 +64,11 @@ public:
             family = QFontDatabase::applicationFontFamilies(id).value(0);
         }
         QFont font;
+        int size = (cfg.fontSize > 0) ? cfg.fontSize : 72;
         if (!family.isEmpty()) {
-            font = QFont(family, 72);
+            font = QFont(family, size);
         } else {
-            font = QFont("Sans Serif", 72);
+            font = QFont("Sans Serif", size);
         }
         timeLabel = new QLabel(this);
         timeLabel->setAlignment(Qt::AlignCenter);
@@ -117,7 +121,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     ClockConfig cfg = loadConfig();
     Clock clock(cfg);
-    clock.show();
+    clock.showFullScreen();
     return app.exec();
 }
 
