@@ -19,10 +19,15 @@ set(PROJECT_SOURCES
         clock.ui
 )
 
+if(WIN32)
+    list(APPEND PROJECT_SOURCES icon.rc)
+endif()
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(clock
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        favicon.qrc
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET clock APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

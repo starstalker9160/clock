@@ -22,12 +22,9 @@ struct ClockConfig {
 
 QString getResourcePath(const QString &filename) {
 #ifdef Q_OS_MAC
-    QDir dir(QCoreApplication::applicationDirPath());
-    dir.cdUp();
-    dir.cd("Resources");
-    return dir.filePath(filename);
+    return QDir(QCoreApplication::applicationDirPath() + "/../Resources").filePath(filename);
 #else
-    return QCoreApplication::applicationDirPath() + "/" + filename;
+    return QDir(QCoreApplication::applicationDirPath()).filePath(filename);
 #endif
 }
 
@@ -78,7 +75,8 @@ public:
         QVBoxLayout *layout = new QVBoxLayout(this);
         layout->addWidget(timeLabel);
         setLayout(layout);
-        setWindowTitle("Clock");
+        setWindowTitle("clock");
+        setWindowIcon(QIcon(":/favicon.ico"));
         setAutoFillBackground(true);
         QPalette pal = palette();
         pal.setColor(QPalette::Window, QColor(cfg.background));
