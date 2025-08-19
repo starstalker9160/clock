@@ -18,7 +18,7 @@ Example `config.json` (used in the image above):
 }
 ```
   
-Some other nice themes can be found [here](./themes.md)
+Some other nice themes can be found [here](https://starstalker.xyz/work/articles/clock-app-configs)
   
 
 ### Windows
