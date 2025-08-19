@@ -18,6 +18,8 @@ Example `config.json` (used in the image above):
 }
 ```
   
+Some other nice themes can be found [here](./themes.md)
+  
 
 ### Windows
 The config file lives in the same folder as the `clock.exe` file.
